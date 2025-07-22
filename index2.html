@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechBlog - Modern Web Development</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Page Sections */
+        .page-section {
+            display: none;
+            min-height: calc(100vh - 80px);
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Home Section */
+        #home {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Controls */
+        .controls {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-container {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+        }
+
+        .filter-container {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e2e8f0;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* Blog Posts Grid */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #f0f2f5, #e2e8f0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 3rem;
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+        }
+
+        .blog-category {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .blog-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+
+        .blog-excerpt {
+            color: #64748b;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .read-more {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .read-more:hover {
+            color: #5a67d8;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 2rem;
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #64748b;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        /* About Page */
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .about-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .about-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        /* Subscribe Section */
+        .subscribe-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        .subscribe-form {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .subscribe-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #64748b;
+            display: none;
+        }
+
+        .no-results-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Success Message */
+        .success-message {
+            background: #10b981;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #667eea;
+                flex-direction: column;
+                padding: 1rem 2rem;
+                gap: 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-container {
+                min-width: auto;
+            }
+
+            .filter-container {
+                justify-content: center;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-section {
+                padding: 1rem;
+            }
+
+            .modal-content {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            .subscribe-form {
+                flex-direction: column;
+            }
+
+            .subscribe-input {
+                min-width: auto;
+            }
+        }
+
+        /* Article Content Styles */
+        .article-content {
+            line-height: 1.8;
+        }
+
+        .article-content h2 {
+            color: #1e293b;
+            margin: 2rem 0 1rem 0;
+        }
+
+        .article-content p {
+            margin-bottom: 1rem;
+            color: #4a5568;
+        }
+
+        .article-content code {
+            background: #f7fafc;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .article-content pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#" class="logo" onclick="showSection('home')">TechBlog</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" onclick="showSection('home')">Home</a></li>
+                <li><a href="#" onclick="showSection('about')">About</a></li>
+                <li><a href="#" onclick="showSection('contact')">Contact</a></li>
+                <li><a href="#" onclick="showSection('subscribe')">Subscribe</a></li>
+            </ul>
+            <button class="mobile-menu" id="mobileMenu">☰</button>
+        </nav>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home" class="page-section active">
+        <div class="hero">
+            <h1>Welcome to TechBlog</h1>
+            <p>Discover the latest in web development, programming tutorials, and tech insights</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="scrollToBlogs()">Explore Articles</button>
+                <button class="btn btn-secondary" onclick="showSection('subscribe')">Subscribe Now</button>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" id="searchInput" placeholder="Search articles...">
+            </div>
+            <div class="filter-container">
+                <button class="filter-btn active" data-category="all">All</button>
+                <button class="filter-btn" data-category="javascript">JavaScript</button>
+                <button class="filter-btn" data-category="react">React</button>
+                <button class="filter-btn" data-category="css">CSS</button>
+                <button class="filter-btn" data-category="nodejs">Node.js</button>
+                <button class="filter-btn" data-category="tutorial">Tutorial</button>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Loading articles...</p>
+        </div>
+
+        <div class="blog-grid" id="blogGrid">
+            <!-- Blog posts will be dynamically inserted here -->
+        </div>
+
+        <div class="no-results" id="noResults">
+            <div class="no-results-icon">📝</div>
+            <h3>No articles found</h3>
+            <p>Try adjusting your search or filter criteria</p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="page-section">
+        <div class="hero">
+            <h1>About TechBlog</h1>
+            <p>Your trusted source for modern web development knowledge</p>
+        </div>
+        
+        <div class="about-content">
+            <div class="about-card">
+                <div class="about-icon">🚀</div>
+                <h3>Our Mission</h3>
+                <p>We're dedicated to providing high-quality, up-to-date content about web development, programming best practices, and emerging technologies. Our goal is to help developers at all levels improve their skills and stay current with industry trends.</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">👥</div>
+                <h3>Our Team</h3>
+                <p>Our team consists of experienced developers, technical writers, and industry experts who are passionate about sharing knowledge. We have over 50 years of combined experience in web development and software engineering.</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">📚</div>
+                <h3>What We Offer</h3>
+                <p>From beginner tutorials to advanced techniques, we cover JavaScript, React, Node.js, CSS, and more. Our articles include practical examples, best practices, and real-world applications to help you become a better developer.</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">🌟</div>
+                <h3>Why Choose Us</h3>
+                <p>We focus on quality over quantity, ensuring each article is thoroughly researched, tested, and reviewed. Our content is always up-to-date with the latest industry standards and emerging technologies.</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">💡</div>
+                <h3>Community</h3>
+                <p>Join our growing community of developers who are passionate about learning and sharing knowledge. Connect with like-minded individuals and grow your professional network.</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">🎯</div>
+                <h3>Future Goals</h3>
+                <p>We're constantly expanding our content library and exploring new ways to deliver value to our readers. Stay tuned for interactive tutorials, video content, and community features.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="page-section">
+        <div class="hero">
+            <h1>Get In Touch</h1>
+            <p>Have questions, suggestions, or want to contribute? We'd love to hear from you!</p>
+        </div>
+        
+        <div class="contact-form">
+            <h2>Send us a message</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required placeholder="Tell us how we can help you..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+            
+            <div class="success-message" id="contactSuccess">
+                ✅ Thank you for your message! We'll get back to you within 24 hours.
+            </div>
+        </div>
+        
+        <div class="about-content" style="margin-top: 3rem;">
+            <div class="about-card">
+                <div class="about-icon">📧</div>
+                <h3>Email Us</h3>
+                <p>hello@techblog.com<br>support@techblog.com</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">🌐</div>
+                <h3>Follow Us</h3>
+                <p>Twitter: @techblog<br>LinkedIn: /company/techblog<br>GitHub: /techblog</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">💼</div>
+                <h3>Collaborate</h3>
+                <p>Interested in writing for us?<br>Contact: writers@techblog.com</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subscribe Section -->
+    <section id="subscribe" class="page-section">
+        <div class="hero">
+            <h1>Stay Updated</h1>
+            <p>Subscribe to our newsletter and never miss the latest articles and tutorials</p>
+        </div>
+        
+        <div class="subscribe-content">
+            <h2>🚀 Join 10,000+ Developers</h2>
+            <p>Get weekly updates with the latest articles, tutorials, and industry insights delivered straight to your inbox.</p>
+            
+            <form class="subscribe-form" id="subscribeForm">
+                <input type="email" class="subscribe-input" placeholder="Enter your email address" required>
+                <button type="submit" class="btn btn-primary">Subscribe</button>
+            </form>
+            
+            <div class="success-message" id="subscribeSuccess">
+                🎉 Welcome aboard! Check your email to confirm your subscription.
+            </div>
+            
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: #64748b;">
+                No spam, unsubscribe at any time. We respect your privacy.
+            </p>
+        </div>
+        
+        <div class="about-content" style="margin-top: 3rem;">
+            <div class="about-card">
+                <div class="about-icon">📅</div>
+                <h3>Weekly Newsletter</h3>
+                <p>Every Tuesday, get a curated list of the week's best articles, tutorials, and resources.</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">🎁</div>
+                <h3>Exclusive Content</h3>
+                <p>Subscribers get early access to new articles and exclusive content not available on the website.</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">🔥</div>
+                <h3>Hot Topics</h3>
+                <p>Stay ahead of the curve with insights on trending technologies and industry developments.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Modal -->
+    <div id="articleModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="articleContent">
+                <!-- Article content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Blog posts data with full content
+        const blogPosts = [
+            {
+                id: 1,
+                title: "Getting Started with Modern JavaScript ES6+",
+                excerpt: "Learn the essential ES6+ features that every modern JavaScript developer should know, including arrow functions, destructuring, and async/await.",
+                category: "javascript",
+                date: "2024-01-15",
+                author: "Sarah Johnson",
+                icon: "⚡",
+                content: `
+                    <h1>Getting Started with Modern JavaScript ES6+</h1>
+                    <p><strong>By Sarah Johnson • January 15, 2024</strong></p>
+                    
+                    <h2>Introduction</h2>
+                    <p>JavaScript has evolved significantly since ES6 (ECMAScript 2015) was released. These modern features have revolutionized how we write JavaScript code, making it more readable, maintainable, and powerful.</p>
+                    
+                    <h2>Arrow Functions</h2>
+                    <p>Arrow functions provide a more concise way to write functions:</p>
+                    <pre><code>// Traditional function
+function add(a, b) {
+    return a + b;
+}
+
+// Arrow function
+const add = (a, b) => a + b;</code></pre>
+                    
+                    <h2>Destructuring</h2>
+                    <p>Destructuring allows you to extract values from arrays and objects:</p>
+                    <pre><code>// Array destructuring
+const [first, second] = [1, 2, 3];
+
+// Object destructuring
+const {name, age} = {name: 'John', age: 30};</code></pre>
+                    
+                    <h2>Template Literals</h2>
+                    <p>Template literals make string interpolation much easier:</p>
+                    <pre><code>const name = 'World';
+const greeting = \`Hello, \${name}!\`;</code></pre>
+                    
+                    <h2>Async/Await</h2>
+                    <p>Handle asynchronous operations more elegantly:</p>
+                    <pre><code>async function fetchData() {
+    try {
+        const response = await fetch('/api/data');
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}</code></pre>
+                    
+                    <h2>Conclusion</h2>
+                    <p>These ES6+ features are essential for modern JavaScript development. Start incorporating them into your projects to write cleaner, more efficient code.</p>
+                `
+            },
+            {
+                id: 2,
+                title: "Building Responsive Layouts with CSS Grid",
+                excerpt: "Master CSS Grid to create flexible, responsive layouts that work perfectly across all devices and screen sizes.",
+                category: "css",
+                date: "2024-01-12",
+                author: "Mike Chen",
+                icon: "🎨",
+                content: `
+                    <h1>Building Responsive Layouts with CSS Grid</h1>
+                    <p><strong>By Mike Chen • January 12, 2024</strong></p>
+                    
+                    <h2>Why CSS Grid?</h2>
+                    <p>CSS Grid is a powerful layout system that allows you to create complex, responsive layouts with ease. Unlike Flexbox, which is one-dimensional, Grid is two-dimensional, giving you control over both rows and columns.</p>
+                    
+                    <h2>Basic Grid Setup</h2>
+                    <pre><code>.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+}</code></pre>
+                    
+                    <h2>Responsive Grid</h2>
+                    <p>Create responsive layouts without media queries:</p>
+                    <pre><code>.responsive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+}</code></pre>
+                    
+                    <h2>Grid Areas</h2>
+                    <p>Define named grid areas for semantic layouts:</p>
+                    <pre><code>.layout {
+    display: grid;
+    grid-template-areas: 
+        "header header header"
+        "sidebar main main"
+        "footer footer footer";
+}</code></pre>
+                    
+                    <h2>Advanced Techniques</h2>
+                    <p>Use CSS Grid with modern features like subgrid and container queries for even more powerful layouts.</p>
+                `
+            },
+            {
+                id: 3,
+                title: "React Hooks: A Complete Guide",
+                excerpt: "Dive deep into React Hooks and learn how to use useState, useEffect, and custom hooks to build powerful React applications.",
+                category: "react",
+                date: "2024-01-10",
+                author: "Emily Davis",
+                icon: "⚛️",
+                content: `
+                    <h1>React Hooks: A Complete Guide</h1>
+                    <p><strong>By Emily Davis • January 10, 2024</strong></p>
+                    
+                    <h2>Introduction to Hooks</h2>
+                    <p>React Hooks revolutionized how we write React components by allowing us to use state and other React features in functional components.</p>
+                    
+                    <h2>useState Hook</h2>
+                    <p>Manage component state in functional components:</p>
+                    <pre><code>import { useState } from 'react';
+
+function Counter() {
+    const [count, setCount] = useState(0);
+    
+    return (
+        <div>
+            <p>Count: {count}</p>
+            <button onClick={() => setCount(count + 1)}>
+                Increment
+            </button>
+        </div>
+    );
+}</code></pre>
+                    
+                    <h2>useEffect Hook</h2>
+                    <p>Handle side effects in your components:</p>
+                    <pre><code>import { useEffect, useState } from 'react';
+
+function UserProfile({ userId }) {
+    const [user, setUser] = useState(null);
+    
+    useEffect(() => {
+        fetchUser(userId).then(setUser);
+    }, [userId]);
+    
+    return user ? <div>{user.name}</div> : <div>Loading...</div>;
+}</code></pre>
+                    
+                    <h2>Custom Hooks</h2>
+                    <p>Create reusable logic with custom hooks:</p>
+                    <pre><code>function useLocalStorage(key, initialValue) {
+    const [value, setValue] = useState(() => {
+        const item = localStorage.getItem(key);
+        return item ? JSON.parse(item) : initialValue;
+    });
+    
+    const setStoredValue = (newValue) => {
+        setValue(newValue);
+        localStorage.setItem(key, JSON.stringify(newValue));
+    };
+    
+    return [value, setStoredValue];
+}</code></pre>
+                `
+            },
+            {
+                id: 4,
+                title: "Node.js Best Practices for 2024",
+                excerpt: "Discover the latest Node.js best practices, performance optimization techniques, and security considerations for modern applications.",
+                category: "nodejs",
+                date: "2024-01-08",
+                author: "Alex Rodriguez",
+                icon: "🚀",
+                content: `
+                    <h1>Node.js Best Practices for 2024</h1>
+                    <p><strong>By Alex Rodriguez • January 8, 2024</strong></p>
+                    
+                    <h2>Project Structure</h2>
+                    <p>Organize your Node.js projects for maintainability:</p>
+                    <pre><code>project/
+├── src/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── middleware/
+│   └── utils/
+├── tests/
+├── config/
+└── package.json</code></pre>
+                    
+                    <h2>Error Handling</h2>
+                    <p>Implement proper error handling strategies:</p>
+                    <pre><code>// Async error handling
+const asyncHandler = (fn) => (req, res, next) => {
+    Promise.resolve(fn(req, res, next)).catch(next);
+};
+
+// Global error handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Something went wrong!' });
+});</code></pre>
+                    
+                    <h2>Security Best Practices</h2>
+                    <p>Secure your Node.js applications:</p>
+                    <pre><code>// Use helmet for security headers
+app.use(helmet());
+
+// Rate limiting
+const rateLimit = require('express-rate-limit');
+app.use(rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100 // limit each IP to 100 requests per windowMs
+}));</code></pre>
+                    
+                    <h2>Performance Optimization</h2>
+                    <p>Optimize your Node.js applications for better performance with clustering, caching, and proper database indexing.</p>
+                `
+            },
+            {
+                id: 5,
+                title: "CSS Animations and Transitions Tutorial",
+                excerpt: "Create smooth, engaging animations and transitions using CSS. Learn keyframes, timing functions, and performance optimization.",
+                category: "tutorial",
+                date: "2024-01-05",
+                author: "Lisa Wang",
+                icon: "✨",
+                content: `
+                    <h1>CSS Animations and Transitions Tutorial</h1>
+                    <p><strong>By Lisa Wang • January 5, 2024</strong></p>
+                    
+                    <h2>CSS Transitions</h2>
+                    <p>Add smooth transitions to your elements:</p>
+                    <pre><code>.button {
+    background-color: blue;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: red;
+}</code></pre>
+                    
+                    <h2>CSS Animations</h2>
+                    <p>Create complex animations with keyframes:</p>
+                    <pre><code>@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.slide-in {
+    animation: slideIn 0.5s ease-out;
+}</code></pre>
+                    
+                    <h2>Performance Tips</h2>
+                    <p>Optimize animations for better performance:</p>
+                    <ul>
+                        <li>Use transform and opacity for animations</li>
+                        <li>Avoid animating layout properties</li>
+                        <li>Use will-change property sparingly</li>
+                        <li>Prefer CSS animations over JavaScript for simple effects</li>
+                    </ul>
+                    
+                    <h2>Advanced Techniques</h2>
+                    <p>Explore advanced animation techniques like cubic-bezier timing functions and animation-fill-mode for more control over your animations.</p>
+                `
+            },
+            {
+                id: 6,
+                title: "Advanced JavaScript Patterns",
+                excerpt: "Explore advanced JavaScript design patterns including module pattern, observer pattern, and functional programming concepts.",
+                category: "javascript",
+                date: "2024-01-03",
+                author: "David Kim",
+                icon: "🧩",
+                content: `
+                    <h1>Advanced JavaScript Patterns</h1>
+                    <p><strong>By David Kim • January 3, 2024</strong></p>
+                    
+                    <h2>Module Pattern</h2>
+                    <p>Encapsulate code and create private variables:</p>
+                    <pre><code>const MyModule = (function() {
+    let privateVariable = 0;
+    
+    function privateFunction() {
+        console.log('Private function called');
+    }
+    
+    return {
+        publicMethod: function() {
+            privateVariable++;
+            privateFunction();
+        },
+        getCount: function() {
+            return privateVariable;
+        }
+    };
+})();</code></pre>
+                    
+                    <h2>Observer Pattern</h2>
+                    <p>Implement the observer pattern for event handling:</p>
+                    <pre><code>class EventEmitter {
+    constructor() {
+        this.events = {};
+    }
+    
+    on(event, callback) {
+        if (!this.events[event]) {
+            this.events[event] = [];
+        }
+        this.events[event].push(callback);
+    }
+    
+    emit(event, data) {
+        if (this.events[event]) {
+            this.events[event].forEach(callback => callback(data));
+        }
+    }
+}</code></pre>
+                    
+                    <h2>Functional Programming</h2>
+                    <p>Apply functional programming concepts:</p>
+                    <pre><code>// Pure functions
+const add = (a, b) => a + b;
+
+// Higher-order functions
+const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(x => x * 2);
+const evens = numbers.filter(x => x % 2 === 0);
+
+// Function composition
+const compose = (f, g) => (x) => f(g(x));</code></pre>
+                `
+            },
+            {
+                id: 7,
+                title: "React Performance Optimization",
+                excerpt: "Learn how to optimize React applications for better performance using memoization, code splitting, and lazy loading techniques.",
+                category: "react",
+                date: "2024-01-01",
+                author: "Jennifer Lee",
+                icon: "⚡",
+                content: `
+                    <h1>React Performance Optimization</h1>
+                    <p><strong>By Jennifer Lee • January 1, 2024</strong></p>
+                    
+                    <h2>React.memo</h2>
+                    <p>Prevent unnecessary re-renders with React.memo:</p>
+                    <pre><code>const ExpensiveComponent = React.memo(({ data }) => {
+    return (
+        <div>
+            {data.map(item => (
+                <div key={item.id}>{item.name}</div>
+            ))}
+        </div>
+    );
+});</code></pre>
+                    
+                    <h2>useMemo and useCallback</h2>
+                    <p>Optimize expensive calculations and function references:</p>
+                    <pre><code>const MyComponent = ({ items, onItemClick }) => {
+    const expensiveValue = useMemo(() => {
+        return items.reduce((sum, item) => sum + item.value, 0);
+    }, [items]);
+    
+    const handleClick = useCallback((id) => {
+        onItemClick(id);
+    }, [onItemClick]);
+    
+    return (
+        <div>
+            <p>Total: {expensiveValue}</p>
+            {items.map(item => (
+                <Item 
+                    key={item.id} 
+                    item={item} 
+                    onClick={handleClick} 
+                />
+            ))}
+        </div>
+    );
+};</code></pre>
+                    
+                    <h2>Code Splitting</h2>
+                    <p>Split your code for better loading performance:</p>
+                    <pre><code>import { lazy, Suspense } from 'react';
+
+const LazyComponent = lazy(() => import('./LazyComponent'));
+
+function App() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <LazyComponent />
+        </Suspense>
+    );
+}</code></pre>
+                `
+            },
+            {
+                id: 8,
+                title: "Modern CSS Layout Techniques",
+                excerpt: "Explore modern CSS layout methods including Flexbox, Grid, and Container Queries for creating adaptive designs.",
+                category: "css",
+                date: "2023-12-28",
+                author: "Tom Wilson",
+                icon: "📐",
+                content: `
+                    <h1>Modern CSS Layout Techniques</h1>
+                    <p><strong>By Tom Wilson • December 28, 2023</strong></p>
+                    
+                    <h2>Flexbox Fundamentals</h2>
+                    <p>Master the flexible box layout:</p>
+                    <pre><code>.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.flex-item {
+    flex: 1;
+}</code></pre>
+                    
+                    <h2>CSS Grid Advanced</h2>
+                    <p>Create complex layouts with CSS Grid:</p>
+                    <pre><code>.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-auto-rows: minmax(200px, auto);
+    gap: 2rem;
+}
+
+.grid-item:nth-child(3n) {
+    grid-column: span 2;
+}</code></pre>
+                    
+                    <h2>Container Queries</h2>
+                    <p>Responsive design based on container size:</p>
+                    <pre><code>.card-container {
+    container-type: inline-size;
+}
+
+@container (min-width: 400px) {
+    .card {
+        display: flex;
+        flex-direction: row;
+    }
+}</code></pre>
+                    
+                    <h2>Modern Layout Patterns</h2>
+                    <p>Combine these techniques to create modern, responsive layouts that adapt to any screen size and content.</p>
+                `
+            }
+        ];
+
+        // DOM elements
+        const blogGrid = document.getElementById('blogGrid');
+        const searchInput = document.getElementById('searchInput');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const loading = document.getElementById('loading');
+        const noResults = document.getElementById('noResults');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const navLinks = document.getElementById('navLinks');
+        const articleModal = document.getElementById('articleModal');
+        const articleContent = document.getElementById('articleContent');
+
+        // State
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        // Initialize the app
+        function init() {
+            showLoading();
+            setTimeout(() => {
+                renderBlogPosts(blogPosts);
+                hideLoading();
+                loadUserPreferences();
+                setupEventListeners();
+            }, 1000);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search functionality
+            searchInput.addEventListener('input', (e) => {
+                currentSearch = e.target.value;
+                filterAndSearch();
+                saveUserPreferences();
+            });
+
+            // Filter buttons
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.dataset.category;
+                    filterAndSearch();
+                    saveUserPreferences();
+                });
+            });
+
+            // Mobile menu
+            mobileMenu.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('nav')) {
+                    navLinks.classList.remove('active');
+                }
+            });
+
+            // Contact form
+            document.getElementById('contactForm').addEventListener('submit', handleContactForm);
+
+            // Subscribe form
+            document.getElementById('subscribeForm').addEventListener('submit', handleSubscribeForm);
+
+            // Modal close on outside click
+            articleModal.addEventListener('click', (e) => {
+                if (e.target === articleModal) {
+                    closeModal();
+                }
+            });
+        }
+
+        // Show section
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Close mobile menu
+            navLinks.classList.remove('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Render blog posts
+        function renderBlogPosts(posts) {
+            if (posts.length === 0) {
+                blogGrid.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            blogGrid.style.display = 'grid';
+            noResults.style.display = 'none';
+
+            blogGrid.innerHTML = posts.map(post => `
+                <article class="blog-card" data-category="${post.category}" onclick="openArticle(${post.id})">
+                    <div class="blog-image">
+                        ${post.icon}
+                    </div>
+                    <div class="blog-content">
+                        <span class="blog-category">${post.category}</span>
+                        <h2 class="blog-title">${post.title}</h2>
+                        <p class="blog-excerpt">${post.excerpt}</p>
+                        <div class="blog-meta">
+                            <span>${post.author} • ${formatDate(post.date)}</span>
+                            <span class="read-more">Read More →</span>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // Open article in modal
+        function openArticle(postId) {
+            const post = blogPosts.find(p => p.id === postId);
+            if (post) {
+                articleContent.innerHTML = `
+                    <div class="article-content">
+                        ${post.content}
+                    </div>
+                `;
+                articleModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Close modal
+        function closeModal() {
+            articleModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Filter and search functionality
+        function filterAndSearch() {
+            let filteredPosts = blogPosts;
+
+            if (currentFilter !== 'all') {
+                filteredPosts = filteredPosts.filter(post => 
+                    post.category === currentFilter
+                );
+            }
+
+            if (currentSearch) {
+                filteredPosts = filteredPosts.filter(post =>
+                    post.title.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                    post.excerpt.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                    post.category.toLowerCase().includes(currentSearch.toLowerCase())
+                );
+            }
+
+            showLoading();
+            setTimeout(() => {
+                renderBlogPosts(filteredPosts);
+                hideLoading();
+            }, 300);
+        }
+
+        // Handle contact form
+        function handleContactForm(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            // Simulate form submission
+            setTimeout(() => {
+                document.getElementById('contactSuccess').style.display = 'block';
+                e.target.reset();
+                setTimeout(() => {
+                    document.getElementById('contactSuccess').style.display = 'none';
+                }, 5000);
+            }, 1000);
+        }
+
+        // Handle subscribe form
+        function handleSubscribeForm(e) {
+            e.preventDefault();
+            const email = e.target.querySelector('input[type="email"]').value;
+            
+            // Simulate subscription
+            setTimeout(() => {
+                document.getElementById('subscribeSuccess').style.display = 'block';
+                e.target.reset();
+                setTimeout(() => {
+                    document.getElementById('subscribeSuccess').style.display = 'none';
+                }, 5000);
+            }, 1000);
+        }
+
+        // Scroll to blogs section
+        function scrollToBlogs() {
+            document.querySelector('.blog-grid').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // Utility functions
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
+
+        function showLoading() {
+            loading.style.display = 'block';
+            blogGrid.style.display = 'none';
+            noResults.style.display = 'none';
+        }
+
+        function hideLoading() {
+            loading.style.display = 'none';
+        }
+
+        // Local storage functions
+        function saveUserPreferences() {
+            const preferences = {
+                filter: currentFilter,
+                search: currentSearch
+            };
+            localStorage.setItem('blogPreferences', JSON.stringify(preferences));
+        }
+
+        function loadUserPreferences() {
+            const saved = localStorage.getItem('blogPreferences');
+            if (saved) {
+                const preferences = JSON.parse(saved);
+                currentFilter = preferences.filter || 'all';
+                currentSearch = preferences.search || '';
+                
+                searchInput.value = currentSearch;
+                filterBtns.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.category === currentFilter);
+                });
+                
+                if (currentSearch || currentFilter !== 'all') {
+                    filterAndSearch();
+                }
+            }
+        }
+
+        // Initialize the application
+        init();
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && articleModal.classList.contains('active')) {
+                closeModal();
+            }
+            if (e.ctrlKey && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+            }
+        });
+
+        console.log('🚀 Extended Blog UI loaded successfully!');
+        console.log('✅ All features are now working:');
+        console.log('  • Navigation between pages');
+        console.log('  • Full article reading');
+        console.log('  • Contact form submission');
+        console.log('  • Newsletter subscription');
+        console.log('  • Search and filtering');
+        console.log('  • Responsive design');
+        console.log('  • Local storage preferences');
+        console.log('  • Modal functionality');
+        console.log('  • Mobile navigation');
+        console.log('  • Keyboard shortcuts (Esc, Ctrl+K)');
+    </script>
+</body>
+</html>
