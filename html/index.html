@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TechBlog - Modern Web Development</title>
+    <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#" class="logo" onclick="showSection('home')">TechBlog</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" onclick="showSection('home')">Home</a></li>
+                <li><a href="#" onclick="showSection('about')">About</a></li>
+                <li><a href="#" onclick="showSection('contact')">Contact</a></li>
+                <li><a href="#" onclick="showSection('subscribe')">Subscribe</a></li>
+            </ul>
+            <button class="mobile-menu" id="mobileMenu">☰</button>
+        </nav>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home" class="page-section active">
+        <div class="hero">
+            <h1>Welcome to TechBlog</h1>
+            <p>Discover the latest in web development, programming tutorials, and tech insights</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="scrollToBlogs()">Explore Articles</button>
+                <button class="btn btn-secondary" onclick="showSection('subscribe')">Subscribe Now</button>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" id="searchInput" placeholder="Search articles..." />
+            </div>
+            <div class="filter-container">
+                <button class="filter-btn active" data-category="all">All</button>
+                <button class="filter-btn" data-category="javascript">JavaScript</button>
+                <button class="filter-btn" data-category="react">React</button>
+                <button class="filter-btn" data-category="css">CSS</button>
+                <button class="filter-btn" data-category="nodejs">Node.js</button>
+                <button class="filter-btn" data-category="tutorial">Tutorial</button>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Loading articles...</p>
+        </div>
+
+        <div class="blog-grid" id="blogGrid">
+            <article class="blog-card" data-category="javascript" onclick="openArticle(1)">
+                <div class="blog-image">⚡</div>
+                <div class="blog-content">
+                    <span class="blog-category">javascript</span>
+                    <h2 class="blog-title">Getting Started with Modern JavaScript ES6+</h2>
+                    <p class="blog-excerpt">Learn the essential ES6+ features that every modern JavaScript developer should know, including arrow functions, destructuring, and async/await.</p>
+                    <div class="blog-meta">
+                        <span>Sarah Johnson • January 15, 2024</span>
+                        <span class="read-more">Read More →</span>
+                    </div>
+                </div>
+            </article>
+            <article class="blog-card" data-category="css" onclick="openArticle(2)">
+                <div class="blog-image">🎨</div>
+                <div class="blog-content">
+                    <span class="blog-category">css</span>
+                    <h2 class="blog-title">Building Responsive Layouts with CSS Grid</h2>
+                    <p class="blog-excerpt">Master CSS Grid to create flexible, responsive layouts that work perfectly across all devices and screen sizes.</p>
+                    <div class="blog-meta">
+                        <span>Mike Chen • January 12, 2024</span>
+                        <span class="read-more">Read More →</span>
+                    </div>
+                </div>
+            </article>
+            <article class="blog-card" data-category="react" onclick="openArticle(3)">
+                <div class="blog-image">⚛️</div>
+                <div class="blog-content">
+                    <span class="blog-category">react</span>
+                    <h2 class="blog-title">React Hooks: A Complete Guide</h2>
+                    <p class="blog-excerpt">Dive deep into React Hooks and learn how to use useState, useEffect, and custom hooks to build powerful React applications.</p>
+                    <div class="blog-meta">
+                        <span>Emily Davis • January 10, 2024</span>
+                        <span class="read-more">Read More →</span>
+                    </div>
+                </div>
+            </article>
+            <article class="blog-card" data-category="nodejs" onclick="openArticle(4)">
+                <div class="blog-image">🚀</div>
+                <div class="blog-content">
+                    <span class="blog-category">nodejs</span>
+                    <h2 class="blog-title">Node.js Best Practices for 2024</h2>
+                    <p class="blog-excerpt">Discover the latest Node.js best practices, performance optimization techniques, and security considerations for modern applications.</p>
+                    <div class="blog-meta">
+                        <span>Alex Rodriguez • January 8, 2024</span>
+                        <span class="read-more">Read More →</span>
+                    </div>
+                </div>
+            </article>
+            <article class="blog-card" data-category="tutorial" onclick="openArticle(5)">
+                <div class="blog-image">✨</div>
+                <div class="blog-content">
+                    <span class="blog-category">tutorial</span>
+                    <h2 class="blog-title">CSS Animations and Transitions Tutorial</h2>
+                    <p class="blog-excerpt">Create smooth, engaging animations and transitions using CSS. Learn keyframes, timing functions, and performance optimization.</p>
+                    <div class="blog-meta">
+                        <span>Lisa Wang • January 5, 2024</span>
+                        <span class="read-more">Read More →</span>
+                    </div>
+                </div>
+            </article>
+            <article class="blog-card" data-category="javascript" onclick="openArticle(6)">
+                <div class="blog-image">🧩</div>
+                <div class="blog-content">
+                    <span class="blog-category">javascript</span>
+                    <h2 class="blog-title">Advanced JavaScript Patterns</h2>
+                    <p class="blog-excerpt">Explore advanced JavaScript design patterns including module pattern, observer pattern, and functional programming concepts.</p>
+                    <div class="blog-meta">
+                        <span>David Kim • January 3, 2024</span>
+                        <span class="read-more">Read More →</span>
+                    </div>
+                </div>
+            </article>
+            <article class="blog-card" data-category="react" onclick="openArticle(7)">
+                <div class="blog-image">⚡</div>
+                <div class="blog-content">
+                    <span class="blog-category">react</span>
+                    <h2 class="blog-title">React Performance Optimization</h2>
+                    <p class="blog-excerpt">Learn how to optimize React applications for better performance using memoization, code splitting, and lazy loading techniques.</p>
+                    <div class="blog-meta">
+                        <span>Jennifer Lee • January 1, 2024</span>
+                        <span class="read-more">Read More →</span>
+                    </div>
+                </div>
+            </article>
+            <article class="blog-card" data-category="css" onclick="openArticle(8)">
+                <div class="blog-image">📐</div>
+                <div class="blog-content">
+                    <span class="blog-category">css</span>
+                    <h2 class="blog-title">Modern CSS Layout Techniques</h2>
+                    <p class="blog-excerpt">Explore modern CSS layout methods including Flexbox, Grid, and Container Queries for creating adaptive designs.</p>
+                    <div class="blog-meta">
+                        <span>Tom Wilson • December 28, 2023</span>
+                        <span class="read-more">Read More →</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="no-results" id="noResults">
+            <div class="no-results-icon">📝</div>
+            <h3>No articles found</h3>
+            <p>Try adjusting your search or filter criteria</p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="page-section">
+        <div class="hero">
+            <h1>About TechBlog</h1>
+            <p>Your trusted source for modern web development knowledge</p>
+        </div>
+        
+        <div class="about-content">
+            <div class="about-card">
+                <div class="about-icon">🚀</div>
+                <h3>Our Mission</h3>
+                <p>We're dedicated to providing high-quality, up-to-date content about web development, programming best practices, and emerging technologies. Our goal is to help developers at all levels improve their skills and stay current with industry trends.</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">👥</div>
+                <h3>Our Team</h3>
+                <p>Our team consists of experienced developers, technical writers, and industry experts who are passionate about sharing knowledge. We have over 50 years of combined experience in web development and software engineering.</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">📚</div>
+                <h3>What We Offer</h3>
+                <p>From beginner tutorials to advanced techniques, we cover JavaScript, React, Node.js, CSS, and more. Our articles include practical examples, best practices, and real-world applications to help you become a better developer.</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">🌟</div>
+                <h3>Why Choose Us</h3>
+                <p>We focus on quality over quantity, ensuring each article is thoroughly researched, tested, and reviewed. Our content is always up-to-date with the latest industry standards and emerging technologies.</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">💡</div>
+                <h3>Community</h3>
+                <p>Join our growing community of developers who are passionate about learning and sharing knowledge. Connect with like-minded individuals and grow your professional network.</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">🎯</div>
+                <h3>Future Goals</h3>
+                <p>We're constantly expanding our content library and exploring new ways to deliver value to our readers. Stay tuned for interactive tutorials, video content, and community features.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="page-section">
+        <div class="hero">
+            <h1>Get In Touch</h1>
+            <p>Have questions, suggestions, or want to contribute? We'd love to hear from you!</p>
+        </div>
+        
+        <div class="contact-form">
+            <h2>Send us a message</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required />
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required />
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" required />
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required placeholder="Tell us how we can help you..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+            
+            <div class="success-message" id="contactSuccess">
+                ✅ Thank you for your message! We'll get back to you within 24 hours.
+            </div>
+        </div>
+        
+        <div class="about-content" style="margin-top: 3rem;">
+            <div class="about-card">
+                <div class="about-icon">📧</div>
+                <h3>Email Us</h3>
+                <p>hello@techblog.com<br />support@techblog.com</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">🌐</div>
+                <h3>Follow Us</h3>
+                <p>Twitter: @techblog<br />LinkedIn: /company/techblog<br />GitHub: /techblog</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">💼</div>
+                <h3>Collaborate</h3>
+                <p>Interested in writing for us?<br />Contact: writers@techblog.com</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subscribe Section -->
+    <section id="subscribe" class="page-section">
+        <div class="hero">
+            <h1>Stay Updated</h1>
+            <p>Subscribe to our newsletter and never miss the latest articles and tutorials</p>
+        </div>
+        
+        <div class="subscribe-content">
+            <h2>🚀 Join 10,000+ Developers</h2>
+            <p>Get weekly updates with the latest articles, tutorials, and industry insights delivered straight to your inbox.</p>
+            
+            <form class="subscribe-form" id="subscribeForm">
+                <input type="email" class="subscribe-input" placeholder="Enter your email address" required />
+                <button type="submit" class="btn btn-primary">Subscribe</button>
+            </form>
+            
+            <div class="success-message" id="subscribeSuccess">
+                🎉 Welcome aboard! Check your email to confirm your subscription.
+            </div>
+            
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: #64748b;">
+                No spam, unsubscribe at any time. We respect your privacy.
+            </p>
+        </div>
+        
+        <div class="about-content" style="margin-top: 3rem;">
+            <div class="about-card">
+                <div class="about-icon">📅</div>
+                <h3>Weekly Newsletter</h3>
+                <p>Every Tuesday, get a curated list of the week's best articles, tutorials, and resources.</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">🎁</div>
+                <h3>Exclusive Content</h3>
+                <p>Subscribers get early access to new articles and exclusive content not available on the website.</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">🔥</div>
+                <h3>Hot Topics</h3>
+                <p>Stay ahead of the curve with insights on trending technologies and industry developments.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Modal -->
+    <div id="articleModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="articleContent">
+                <!-- Article content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/script.js"></script>
+    <script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
+    <script>
+        (function () {
+            emailjs.init('YOUR_USER_ID');
+        })();
+    </script>
+</body>
+</html>
